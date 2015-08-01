@@ -1,0 +1,50 @@
+<div ui-content-for="title">
+    Rare Goods
+</div>
+
+<div ui-content-for="navbutton-left">
+    <a href="" back-button>Back</a>
+</div>
+
+<div class="scrollable">
+    <div class="scrollable-content">
+
+        <div class="list-group" ng-show="loading">
+            <div class="list-group-item loading">
+                <i class="fa fa-spinner fa-spin loading-spinner"></i>
+            </div>
+        </div>
+        <div class="list-group" ng-show="error">
+            <div class="list-group-item">
+                {{ error }}
+            </div>
+        </div>
+        <table class="table-striped" ng-show="results != null">
+            <thead>
+                <tr>
+                    <th>Location</th>
+                    <th>Distance</th>
+                    <th>From Star</th>
+                    <th>Item</th>
+                    <th>Price</th>
+                    <th>Faction</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="list-group-item" ng-if="!results.length">
+                    <td>No rare goods found</td>
+                </tr>
+                <tr ng-repeat="r in results"
+                        ng-click="performNavMacro(r.Location)"
+                        >
+                    <td>{{ r.Location }}</td>
+                    <td>{{ r.Distance }}</td>
+                    <td>{{ r.DistanceFromJumpIn }}</td>
+                    <td>{{ r.RareTrade }}</td>
+                    <td>{{ r.Price }}</td>
+                    <td>{{ r.Allegiance }}</td>                                                                                                    
+                </tr>
+            </tbody>
+        </table>        
+    </div>
+</div>

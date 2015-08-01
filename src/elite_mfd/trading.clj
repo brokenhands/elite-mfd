@@ -14,6 +14,8 @@
   "http://elitetradingtool.co.uk/api/EliteTradingTool/Calculator")
 (def search-url 
   "http://elitetradingtool.co.uk/api/EliteTradingTool/Search")
+(def rares-url 
+  "http://elitetradingtool.co.uk/api/EliteTradingTool/RareTrades")  
 ;; mapping for search-stations :search-type arg value to API value
 (def search-types {:buying "Station Buying"
                    :selling "Station Selling"})
@@ -141,13 +143,15 @@
                       :CurrentLocation system-name
                       :Economy (exists? economy-id)
                       :EconomyId (arg-value economy-id)
+                      :FactionName ""
                       :Government (exists? government-id)
                       :GovernmentId (arg-value government-id)
                       :Outfitting (exists? has-outfitting)
                       :PadSize pad-size
+                      :Rearm (exists? has-repairs)
+                      :Refuel (exists? has-repairs)
                       :Repairs (exists? has-repairs)
                       :SearchRange search-range
-                      :SearchType (get search-types (keyword search-type))
                       :Shipyard (exists? has-shipyard)}]
     (log request-body)
     (http/post 
@@ -161,6 +165,24 @@
             (log "! Error searching" error "Request:" request-body)
             (callback nil))
           (callback (:Results (parse-string body true))))))))
+
+(defn find-rares
+  "Call the rare searcher based on a station"
+  [system-name &
+   {:keys [callback]}]
+  (let [request-body {:CurrentLocation system-name}]
+    (log request-body)
+    (http/post 
+      rares-url
+      {:timeout 1000
+       :headers {"Content-Type" "application/json"}
+       :body (generate-string request-body)}
+      (fn [{:keys [error body]}]
+        (if error
+          (do 
+            (log "! Error searching" error "Request:" request-body)
+            (callback nil))
+          (callback (parse-string body true)))))))
 
 ;;
 ;; Packet handlers and related
@@ -204,6 +226,17 @@
                    :q q ;; give back q to ignore old queries
                    :result (take 100 (filter-stations q))})
     (client-error ch "No query provided")))
+    
+(defn on-rares
+  "Rares search handler"
+  [ch packet]
+  (if-let [system (:system packet)]
+    (apply find-rares
+           (flatten (conj [system] 
+                          (calculate-packet-to-seq packet)
+                          :callback #(to-client ch {:type :rares-result
+                                                    :result %}))))
+    (client-error ch "Must specify system")))
 
 ;;
 ;; Registration
@@ -214,4 +247,5 @@
   (assoc handlers
          :calculate on-calculate
          :search on-search
-         :stations on-stations))
+         :stations on-stations
+         :rares on-rares))

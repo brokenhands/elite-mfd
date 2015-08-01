@@ -6,6 +6,7 @@ angular.module('emfd', [
   , 'mobile-angular-ui'
   , 'mobile-angular-ui.gestures'
   , 'emfd.views.home'
+  , 'emfd.views.rares'    
   , 'emfd.views.macros'
   , 'emfd.views.stations'
   , 'emfd.views.trading'

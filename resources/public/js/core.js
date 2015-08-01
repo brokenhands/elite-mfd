@@ -134,7 +134,6 @@ angular.module('emfd')
             //  on_system packet for better UX
             $rootScope.connected = true;
             $rootScope.everConnected = true;
-
             $rootScope.currentSystem = packet;
         });
     });

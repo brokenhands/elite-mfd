@@ -95,3 +95,12 @@ a.macro {
 .hidden {
     display: none;
 }
+
+table td,
+table th {
+    padding:.5em;
+}
+
+table tr {
+    min-height:2em;
+}

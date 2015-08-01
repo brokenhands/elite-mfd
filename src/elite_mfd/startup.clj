@@ -91,19 +91,23 @@
       (when (not (launcher-running))
         (recur)))
     ; launcher started; macro
-    (send-shift-tab)
+    (key-tap (vk "tab"))
+    (key-tap (vk "tab"))
+    (key-tap (vk "tab"))
     (key-tap (vk "space"))
     ; wait for login screen...
     (Thread/sleep launcher-wait-sleep)
-    (send-shift-tab)
-    (send-shift-tab)
+    (key-tap (vk "tab"))
+    (key-tap (vk "tab"))
+    (key-tap (vk "tab"))
+    (key-tap (vk "tab"))
+    (key-tap (vk "tab"))
     (key-tap (vk "space"))
     ;; wait for login...
     (Thread/sleep launcher-wait-sleep)
-    (send-shift-tab)
-    (key-tap (vk "home")) ;; select E:D
-    (send-shift-tab)
-    (send-shift-tab)
+    (key-tap (vk "tab"))
+    (key-tap (vk "tab"))
+    (key-tap (vk "tab"))
     (key-tap (vk "space")))) ;; gogogo!
 
 (defn open-menu

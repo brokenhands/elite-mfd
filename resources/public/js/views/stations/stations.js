@@ -58,5 +58,18 @@ angular.module('emfd.views.stations', ['ngRoute'])
     // if (dataStore[$routeParams.ref]) {
     //     $scope[$routeParams.ref] = dataStore[$routeParams.ref][$routeParams.index];
     // }
-
+    
+    $scope.performNavMacro = function(systemName) {
+        websocket.send({
+            type: 'macro'
+          , macro: ['galaxy-map', 'macro-wait', 
+                    'tab-right', 'ui-select', // select the field
+                    'backspace', // if `space` is ui-select, one is added
+                    '"' + systemName + '"', // finally type
+                    'press-enter','macro-wait', 'macro-wait', // map is slow to find
+                    'ui-right', 'ui-select',
+                    'galaxy-map'
+                    ]
+        });
+    }
 }]);

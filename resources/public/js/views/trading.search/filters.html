@@ -48,9 +48,17 @@
             <ui-switch ng-model="form['has-shipyard']"></ui-switch>
         </div>
         <div class="form-group">
+            <label>Rearm</label>
+            <ui-switch ng-model="form['has-rearm']"></ui-switch>
+        </div>
+        <div class="form-group">
+            <label>Refuel</label>
+            <ui-switch ng-model="form['has-refuel']"></ui-switch>
+        </div>
+        <div class="form-group">
             <label>Repairs</label>
             <ui-switch ng-model="form['has-repairs']"></ui-switch>
-        </div>
+        </div>                
     </div>
 
     <div ui-if="activeTab == 3">
