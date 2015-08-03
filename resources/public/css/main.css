@@ -38,6 +38,9 @@ a.macro {
 .keyboard-container {
     padding: 1em;
 }
+.app {
+    background:#000;
+}
 
 .app-content-loading {
   text-align: center;
@@ -60,7 +63,17 @@ a.macro {
     position: relative;
     margin-top: 0;
 }
-
+a.list-group-item,
+.list-group-item {
+    background-color: rgba(28,15,0,.85);
+    border: 1px solid #c06400;
+    fill: #ccc;
+    color:#fff;
+}
+.list-group-item a,
+.list-group-item a div,{
+    color:#fff;
+}
 .modal-body {
     padding: 1em;
 }
@@ -95,12 +108,32 @@ a.macro {
 .hidden {
     display: none;
 }
-
-table td,
-table th {
-    padding:.5em;
+button,
+.btn-primary,
+.btn-primary.active, .btn-primary:active, .btn-primary:focus, .open>.dropdown-toggle.btn-primary {
+    color:#ff8c0d;
+    background-color: rgba(28, 15, 0, 0.85098);
+    border:1px solid rgb(255, 140, 13);
 }
 
-table tr {
-    min-height:2em;
+button.btn-primary:hover {
+    background:#ccc;
+}
+
+.navbar-app {
+    color:#ff8c0d;
+    background-color: rgba(28, 15, 0, 0.85098);
+    border:1px solid rgb(255, 140, 13);
+}
+
+.navbar-app .btn, .navbar-app .btn-navbar {
+    color:#fff;
+}
+
+.navbar-app .btn-navbar:hover, .navbar-app .btn:hover {
+    color:#ccc;
+}
+
+.table-striped>tbody>tr:nth-child(odd)>td, .table-striped>tbody>tr:nth-child(odd)>th {
+    color:#000;
 }
