@@ -108,6 +108,8 @@ angular.module('emfd')
     $rootScope.everConnected = false;
     $rootScope.currentSystem = null;
 
+    $rootScope.destination = {currentNotes:"",isFavorite:false};
+
     $rootScope.isSystem = function(candidate, systemName) {
         return candidate.trim().toLowerCase() == systemName.trim().toLowerCase();
     }
@@ -135,13 +137,35 @@ angular.module('emfd')
             $rootScope.connected = true;
             $rootScope.everConnected = true;
             $rootScope.currentSystem = packet;
+            $rootScope.destination = commander.destination(packet.system);
         });
     });
 
     websocket.registerGlobal('error', function(packet) {
         console.error("<<", packet);
     });
-
+    
+    $rootScope.performNavMacro = function(systemName) {
+        websocket.send({
+            type: 'macro'
+          , macro: ['galaxy-map', 'macro-wait', 
+                    'tab-right', 'ui-select', // select the field
+                    'backspace', // if `space` is ui-select, one is added
+                    '"' + systemName + '"', // finally type
+                    'press-enter','macro-wait', 'macro-wait', // map is slow to find
+                    'ui-right', 'ui-select',
+                    'galaxy-map'
+                    ]
+        });
+    }
+    
+    $rootScope.setFavorite = function(systemName,isFavorite) {
+        commander.setFavorite(systemName,isFavorite);
+    }
+    
+     $rootScope.setNotes = function(systemName,notes) {
+        commander.setNotes(systemName,notes);
+    }
 }])
 
 .directive('stationsModal', function() {

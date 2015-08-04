@@ -1,0 +1,19 @@
+<div ui-content-for="title">
+    Favorite Systems
+</div>
+
+<div ui-content-for="navbutton-left">
+    <a href="" back-button>Back</a>
+</div>
+
+<div class="scrollable">
+    <div class="scrollable-content">
+        <div class="list-group">
+            <a class="list-group-item" ng-repeat="destination in destinations" ng-if="destination.favorite" ng-click="performNavMacro(r.destination.name)">
+                <h4>{{ destination.name }}</h4>
+                <div>{{ destination.notes }}</div>
+            </a>
+        </div>
+    </div>
+</div>
+                

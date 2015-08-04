@@ -33,6 +33,7 @@ angular.module('emfd')
 
     $ws.registerGlobal('commander_data', function(packet) {
         _data = _.extend(_data, packet.data);
+        $rootScope.destination = service.destination($rootScope.currentSystem.system);        
         $rootScope.$broadcast('emfd.commander-data', packet);
     });
 
@@ -69,7 +70,8 @@ angular.module('emfd')
         cash: newField('cash', 1000)
       , cargo: newField('cargo', 4)
       , 'jump-range': newField('jump-range', 10)
-      , 'pad-size': newField('pad-size', 'Small')
+      , 'pad-size': newField('pad-size', 'Small'),
+        destinations: newField('destinations',[])
 
         /*
          * Shared Constants
@@ -103,6 +105,52 @@ angular.module('emfd')
             return result;
         }, {});
     }
-
+    
+    /** Return a CMDR based info on destination **/
+    service.destination = function(system) {
+        var destination = {
+            isFavorite:false,
+            currentNotes:""
+        };
+        for(var i in _data.destinations) {
+            if(_data.destinations[i].name == system){
+               destination.currentNotes = _data.destinations[i].notes;
+               destination.isFavorite = _data.destinations[i].favorite;
+            }
+        }
+        return destination;        
+    } 
+    
+    /** Update favorite status for a system **/
+    service.setFavorite =function(system,makeFavorite){
+        var newDestination = true;
+        for(var i in _data.destinations) {
+            if(_data.destinations[i].name == system){
+               _data.destinations[i].favorite = makeFavorite;
+               newDestination = false;
+            }
+        }
+        if(newDestination){
+            _data.destinations.push({name:system,favorite:makeFavorite,notes:""}); 
+        }
+        update("destinations",_data.destinations);
+        $rootScope.destination = service.destination($rootScope.currentSystem.system);
+    }
+    
+    /** Update notes for a given system **/
+    service.setNotes = function(system,notes){
+        var newDestination = true;    
+        for(var i in _data.destinations) {
+            if(_data.destinations[i].name == system){
+               _data.destinations[i].notes = notes;
+               newDestination = false;               
+            }          
+        }
+        if(newDestination){
+           _data.destinations.push({name:system,favorite:false,notes:notes}); 
+        }          
+        update("destinations",_data.destinations);
+        $rootScope.destination = service.destination($rootScope.currentSystem.system);
+    }
     return service;
 }]);

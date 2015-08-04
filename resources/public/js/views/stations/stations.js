@@ -12,12 +12,13 @@ angular.module('emfd.views.stations', ['ngRoute'])
 }])
 
 .controller('StationController', [
-        '$scope', '$routeParams', 'dataStore', 'websocket',
-        function($scope, $routeParams, dataStore, websocket) {
+        '$scope', '$routeParams', 'dataStore', 'websocket', 'commander',
+        function($scope, $routeParams, dataStore, websocket, commander) {
 
     $scope.system = $routeParams.system;
     $scope.station = $routeParams.station;
     $scope.ref = $routeParams.ref;
+    $scope.destination = commander.destination($routeParams.system);
 
     websocket.registerLocal($scope, {
         calculate_result: function(result) {
@@ -28,6 +29,7 @@ angular.module('emfd.views.stations', ['ngRoute'])
 
     switch ($scope.ref) {
     case 'trading':
+        console.log($scope.destination);
         $scope.trade = JSON.parse($routeParams.trade);
         $scope.subtitle = "Selected Trade";
 
@@ -58,18 +60,4 @@ angular.module('emfd.views.stations', ['ngRoute'])
     // if (dataStore[$routeParams.ref]) {
     //     $scope[$routeParams.ref] = dataStore[$routeParams.ref][$routeParams.index];
     // }
-    
-    $scope.performNavMacro = function(systemName) {
-        websocket.send({
-            type: 'macro'
-          , macro: ['galaxy-map', 'macro-wait', 
-                    'tab-right', 'ui-select', // select the field
-                    'backspace', // if `space` is ui-select, one is added
-                    '"' + systemName + '"', // finally type
-                    'press-enter','macro-wait', 'macro-wait', // map is slow to find
-                    'ui-right', 'ui-select',
-                    'galaxy-map'
-                    ]
-        });
-    }
 }]);

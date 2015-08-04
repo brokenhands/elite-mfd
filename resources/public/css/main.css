@@ -137,3 +137,19 @@ button.btn-primary:hover {
 .table-striped>tbody>tr:nth-child(odd)>td, .table-striped>tbody>tr:nth-child(odd)>th {
     color:#000;
 }
+
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    font-family: Eurostile,Helvetica,sans-serif;
+}
+
+a.fav {
+    color:rgb(255, 140, 13);
+}
+a.notFav {
+    color:#fff;
+}
+.systemDetails textarea {
+    width:90%;
+    font-size:1.5em;
+    min-height:8em;
+}

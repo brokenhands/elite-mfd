@@ -3,9 +3,12 @@
         <a href="#/search/{{ currentSystem.system }}" class="btn btn-navbar">
             <i class="fa fa-search fa-navbar"></i> Search
         </a>
-        <a href="#/navigate/{{ currentSystem.system }}" class="btn btn-navbar" style="display:none">
-            <i class="fa fa-compass fa-navbar"></i> Navigate
+        <a href="#/navigate/{{ currentSystem.system }}" class="btn btn-navbar">
+            <i class="fa fa-compass fa-navbar"></i> Nav
         </a>
+        <a href="#/favorites" class="btn btn-navbar">
+            <i class="fa fa-bookmark fa-navbar"></i> Favs
+        </a>        
         <a href="#/rares/{{ currentSystem.system }}" class="btn btn-navbar">
             <i class="fa fa-trophy fa-navbar"></i> Rares
         </a>        
@@ -18,19 +21,30 @@
         <div class="list-group" ng-if="currentSystem">
 
             <div class="list-group-item text-center">
-                <div>
-                    <h3 class="home-heading error" ng-hide="currentSystem">Current System Unavailable</span>
-                    <h3 class="home-heading" ng-show="currentSystem">Welcome to {{ currentSystem.system }}</span>
+                <div class="systemDetails">
+                    <h3 class="home-heading error" ng-hide="currentSystem">Current System Unavailable</h3>
+                    <h3 class="home-heading" ng-show="currentSystem">Welcome to {{ currentSystem.system }} 
+                    
+                    <a ng-class="destination.isFavorite ? 'fav':'notFav'" ng-click="setFavorite(currentSystem.system,!destination.isFavorite)"><i class="fa fa-bookmark"></i></a>
+
+                    </h3>
+                        <span ng-hide="editingNotes">
+                        {{ destination.currentNotes }}
+                        </span>
+                    
+                    <textarea ng-model="destination.currentNotes" ng-change="setNotes(currentSystem.system,destination.currentNotes)" ng-show="editingNotes" autofocus="editingNotes"></textarea>
+                        <a ng-click="editingNotes = !editingNotes" ng-class="editingNotes ? 'fav':''"><i class="fa fa-edit"></i></a>
+
                 </div>
 
-                <div>
+                <div ng-hide="editingNotes">
                     <h4 class="home-heading">Nearby Stations:</h4>
                 </div>
             </div>
             <div class="list-group-item text-center" ng-if="!currentSystem.stations">
                 None
             </div>
-            <a ng-repeat="station in currentSystem.stations"
+            <a ng-repeat="station in currentSystem.stations" ng-hide="editingNotes"
                    class="list-group-item"
                    href="#/trading/{{ currentSystem.system }}/{{ station }}">
                {{ station }} <i class="fa fa-chevron-right pull-right"></i>

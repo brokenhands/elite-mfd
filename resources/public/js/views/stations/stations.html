@@ -18,9 +18,9 @@
                 <h3>{{ station }} 
                     <small ng-if="distance && distanceFromJumpIn">{{ distance }}&nbsp;Ly <b>|</b> {{ distanceFromJumpIn|bigNumber:'&nbsp;' }}Ls</small>
                 </h3>
+                <div>{{ destination.currentNotes }}</div>
 
                 <legend class="station-subtitle" ng-if="subtitle">{{ subtitle }}</legend>
-
                 <div ng-if="ref == 'trading'">
                     From <span class="station">{{ trade.startingStation }}</span> 
                     Buy {{ trade.qty }} {{ trade.commodityName }} @ {{ trade.buy }}<br>

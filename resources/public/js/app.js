@@ -11,7 +11,8 @@ angular.module('emfd', [
   , 'emfd.views.stations'
   , 'emfd.views.trading'
   , 'emfd.views.trading.search'
-  , 'emfd.views.navigate'
+  , 'emfd.views.navigate',
+  , 'emfd.views.favorites'
 ])
 
 .config(['$routeProvider', function($routeProvider) {
